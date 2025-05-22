@@ -25,3 +25,9 @@ Getting Things Done by David Allen is a proven approach for handling the organiz
 
 ### Right Brain ~/org/roam
 ROAM is the emacs package modeled after Roam Research's note taking software, which is itself modeled on the Zettlekasten note taking approach developed by Niklas Luhmann in the 1950's.
+
+### Future Actions
+- Adopt a dotfiles management approach such as
+    - Git bare repo
+    - GNU Stow
+    - Tool like chezmoi or yadm
