@@ -673,28 +673,32 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; [4.0] Org Mode Capture Templates
   (setq org-directory "~/org")
-  (setq org-default-notes-file "~/org/gtd/inbox.org")
+  (setq org-default-notes-file "~/org/gtd/slipbox.org")
 
   ;; I use C-c c to start capture mode
   (global-set-key (kbd "C-c c") 'org-capture)
 
   ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
   (setq org-capture-templates
-        (quote (("t" "todo" entry (file "~/org/gtd/inbox.org")
+        (quote (("t" "todo" entry (file "~/org/gtd/slipbox.org")
                  "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                ("r" "respond" entry (file "~/org/gtd/inbox.org")
+                ("r" "respond" entry (file "~/org/gtd/slipbox.org")
                  "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-                ("n" "note" entry (file "~/org/gtd/inbox.org")
+                ("n" "note" entry (file "~/org/gtd/slipbox.org")
                  "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
                 ("j" "Journal" entry (file+datetree "~/org/gtd/journal.org")
                  "* %?\n%U\n" :clock-in t :clock-resume t)
-                ("w" "org-protocol" entry (file "~/org/gtd/inbox.org")
+                ("w" "org-protocol" entry (file "~/org/gtd/slipbox.org")
                  "* TODO Review %c\n%U\n" :immediate-finish t)
-                ("m" "Meeting" entry (file "~/org/gtd/inbox.org")
+                ("a" "Appointment" entry (file+datetree "~/org/gtd/journal.org")
+                 ,(concat "* %? :meeting:\n"
+                          "<%<%Y-%m-%d %a %^{Time}>>")
+                 :time-prompt t)
+                ("m" "Meeting" entry (file "~/org/gtd/slipbox.org")
                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                ("p" "Phone call" entry (file "~/org/gtd/inbox.org")
+                ("p" "Phone call" entry (file "~/org/gtd/slipbox.org")
                  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                ("h" "Habit" entry (file "~/org/gtd/inbox.org")
+                ("h" "Habit" entry (file "~/org/gtd/slipbox.org")
                  "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
   ;; [4.1] Remove emplty LOGBOOK drawers in captures if they occur
   (defun bh/remove-empty-drawer-on-clock-out ()
@@ -749,20 +753,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Weekly Revier borrowed from System Crafters
   ;; https://systemcrafters.net/org-mode-productivity/custom-org-agenda-views/
-  ; (setq org-log-done 'time)
-  ; (setq org-agenda-start-with-log-mode t)
-  ;
-  ; (setq org-agenda-custom-commands
-  ;       '(("w" "Weekly Review"
-  ;          ((agenda ""
-  ;                   ((org-agenda-overriding-header "Completed Tasks")
-  ;                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))
-  ;                    (org-agenda-span 'week)))
-  ;
-  ;           (agenda ""
-  ;                   ((org-agenda-overriding-header "Unfinished Scheduled Tasks")
-  ;                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-  ;                    (org-agenda-span 'week)))))))
+                                        ; (setq org-log-done 'time)
+                                        ; (setq org-agenda-start-with-log-mode t)
+                                        ;
+                                        ; (setq org-agenda-custom-commands
+                                        ;       '(("w" "Weekly Review"
+                                        ;          ((agenda ""
+                                        ;                   ((org-agenda-overriding-header "Completed Tasks")
+                                        ;                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))
+                                        ;                    (org-agenda-span 'week)))
+                                        ;
+                                        ;           (agenda ""
+                                        ;                   ((org-agenda-overriding-header "Unfinished Scheduled Tasks")
+                                        ;                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                                        ;                    (org-agenda-span 'week)))))))
 
   ;; Custom agenda command definitions ** RELIES ON CUSTOM FUNCTIONS SEE BERNT HANSEN DOCS **
   ;; (setq org-agenda-custom-commands
@@ -1047,7 +1051,7 @@ This function is called at the very end of Spacemacs initialization."
    '(org-safe-remote-resources
      '("\\`https://0xbadc0fee\\.github\\.io\\(?:/\\|\\'\\)" "\\`https://drojas\\.github\\.io\\(?:/\\|\\'\\)" "\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
    '(package-selected-packages
-     '(counsel-gtags dap-mode lsp-docker bui ggtags import-js grizzl js-doc js2-refactor multiple-cursors livid-mode nodejs-repl npm-mode skewer-mode js2-mode tern auto-yasnippet flycheck-pos-tip pos-tip helm-c-yasnippet helm-company helm-lsp lsp-origami origami lsp-treemacs lsp-ui lsp-mode pdf-view-restore pdf-tools tablist yasnippet-snippets esh-help eshell-prompt-extras eshell-z multi-term multi-vterm xref shell-pop terminal-here vterm xterm-color olivetti add-node-modules-path company-web web-completion-data company counsel-css counsel swiper ivy emmet-mode helm-css-scss impatient-mode prettier-js pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-beautify web-mode yasnippet evil-org gnuplot helm-org-rifle htmlize org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank orgit-forge orgit org org-roam-ui fsm simple-httpd websocket org-roam forge yaml markdown-mode ghub closql emacsql treepy git-link git-messenger git-modes git-timemachine gitignore-templates helm-git-grep helm-ls-git smeargle treemacs-magit magit magit-section git-commit with-editor transient seq ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
+     '(citar-denote adaptive-wrap counsel-gtags dap-mode lsp-docker bui ggtags import-js grizzl js-doc js2-refactor multiple-cursors livid-mode nodejs-repl npm-mode skewer-mode js2-mode tern auto-yasnippet flycheck-pos-tip pos-tip helm-c-yasnippet helm-company helm-lsp lsp-origami origami lsp-treemacs lsp-ui lsp-mode pdf-view-restore pdf-tools tablist yasnippet-snippets esh-help eshell-prompt-extras eshell-z multi-term multi-vterm xref shell-pop terminal-here vterm xterm-color olivetti add-node-modules-path company-web web-completion-data company counsel-css counsel swiper ivy emmet-mode helm-css-scss impatient-mode prettier-js pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-beautify web-mode yasnippet evil-org gnuplot helm-org-rifle htmlize org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank orgit-forge orgit org org-roam-ui fsm simple-httpd websocket org-roam forge yaml markdown-mode ghub closql emacsql treepy git-link git-messenger git-modes git-timemachine gitignore-templates helm-git-grep helm-ls-git smeargle treemacs-magit magit magit-section git-commit with-editor transient seq ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
